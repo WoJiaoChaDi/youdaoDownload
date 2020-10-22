@@ -84,6 +84,8 @@ public class Application {
 
                 line ++ ;
             }
+
+            System.out.println("所有单词下载完成！总计：" + line--);
             reader.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

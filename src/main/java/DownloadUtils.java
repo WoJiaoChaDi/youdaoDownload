@@ -54,7 +54,7 @@ public class DownloadUtils {
         }
 
         File temp = new File(rootDir,
-                wordString + "." + targetType);
+                "Chadi-" + wordString + "." + targetType);
 
         //if (!temp.exists()) {
             temp.createNewFile();
