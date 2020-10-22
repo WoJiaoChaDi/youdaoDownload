@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  *
  * 放入指定的目录中
  *
- * @author Geek
+ * @author XuDong
  *
  */
 public class Application {
