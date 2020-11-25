@@ -37,9 +37,14 @@ public class Application {
         String targetWordTxt = scanner.next();
 
         //前缀
-        System.out.println("请输入下载的单词前缀");
+        System.out.println("请输入下载的单词前缀，如果不需要前缀，请输入\"no\"");
         scanner = new Scanner(System.in);
         String preText = scanner.next();
+
+        //如果是no,则表示空
+        if("no".equals(preText)){
+            preText = "";
+        }
 
         //前缀
         System.out.println("请输入是下载单词类型：0-首个单词   1-全部单词");
@@ -94,12 +99,9 @@ public class Application {
                 }
                 System.out.print("\t" + word);
 
-                //拼接前缀
-                word = preText + word;
-
                 String wordUrl = baseUrl+ word;
                 wordUrl = URIUtil.encodeQuery(wordUrl);
-                DownloadUtils downloadUtils  = new DownloadUtils(wordUrl, word, "mp3",file.getParent()+"\\words");
+                DownloadUtils downloadUtils  = new DownloadUtils(wordUrl, preText, word, "mp3",file.getParent()+"\\words");
                 try {
                     downloadUtils.httpDownload();
                     System.out.print("\t \t \t下载成功");
@@ -112,7 +114,7 @@ public class Application {
                 line ++ ;
             }
 
-            System.out.println("所有单词下载完成！总计：" + line--);
+            System.out.println("所有单词下载完成！总计：" + --line);
             reader.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

@@ -7,6 +7,8 @@ import java.net.URL;
 public class DownloadUtils {
     // 目标链接字符串
     private String wordUrl;
+    // 单词前缀
+    private String preText;
     // 单词字符串
     private String wordString;
     // 目标文件的格式
@@ -14,17 +16,19 @@ public class DownloadUtils {
     // 存放文件路径
     private File rootDir;
 
-    public DownloadUtils(String wordUrl, String wordString, String targetType, File rootDir) {
+    public DownloadUtils(String wordUrl, String preText, String wordString, String targetType, File rootDir) {
         super();
         this.wordUrl = wordUrl;
+        this.preText = preText;
         this.wordString = wordString;
         this.targetType = targetType;
         this.rootDir = rootDir;
     }
 
-    public DownloadUtils(String wordUrl, String wordString, String targetType, String rootDir) {
+    public DownloadUtils(String wordUrl, String preText, String wordString, String targetType, String rootDir) {
         super();
         this.wordUrl = wordUrl;
+        this.preText = preText;
         this.wordString = wordString;
         this.targetType = targetType;
         this.rootDir = new File(rootDir);
@@ -53,7 +57,9 @@ public class DownloadUtils {
             rootDir.mkdirs();
         }
 
-        File temp = new File(rootDir, wordString + "." + targetType);
+        //拼接完整单词
+        String fullWord = preText + wordString;
+        File temp = new File(rootDir, fullWord + "." + targetType);
 
         //if (!temp.exists()) {
             temp.createNewFile();
