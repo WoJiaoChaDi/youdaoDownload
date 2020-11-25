@@ -53,8 +53,7 @@ public class DownloadUtils {
             rootDir.mkdirs();
         }
 
-        File temp = new File(rootDir,
-                "Chadi-" + wordString + "." + targetType);
+        File temp = new File(rootDir, wordString + "." + targetType);
 
         //if (!temp.exists()) {
             temp.createNewFile();

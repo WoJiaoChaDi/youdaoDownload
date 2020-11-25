@@ -1,4 +1,6 @@
 
+import org.apache.commons.httpclient.util.URIUtil;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,7 +24,7 @@ public class Application {
         System.out.println("请输入需要的单词发音类型：0-美式  1-英式");
         Scanner scanner = new Scanner(System.in);
         String targetType = scanner.next();
-        if(targetType.equals("1") && targetType.equals("0")){
+        if(!targetType.equals("1") && !targetType.equals("0")){
             System.out.println("您输入的是"+ targetType +"，请输入0或1，不支持其他类型！");
             return;
         }
@@ -33,6 +35,22 @@ public class Application {
         System.out.println("请输入单词txt地址，如： E:\\YouDaoDownload\\ankiword.txt");
         scanner = new Scanner(System.in);
         String targetWordTxt = scanner.next();
+
+        //前缀
+        System.out.println("请输入下载的单词前缀");
+        scanner = new Scanner(System.in);
+        String preText = scanner.next();
+
+        //前缀
+        System.out.println("请输入是下载单词类型：0-首个单词   1-全部单词");
+        scanner = new Scanner(System.in);
+        String downFlag = scanner.next();
+        if(!downFlag.equals("1") && !downFlag.equals("0")){
+            System.out.println("您输入的是"+ downFlag +"，请输入0或1，不支持其他类型！");
+            return;
+        }
+
+
         File file = new File(targetWordTxt);
         if(!file.exists()){
             System.out.println(targetWordTxt + "\t 文件目录不存在，请重新确认！");
@@ -56,12 +74,17 @@ public class Application {
 
                 String word = "";
 
-                //正则表达式  匹配每行的第一个单词
-                String patt = "^\\b\\w*\\b";
-                Pattern pattern = Pattern.compile(patt);
-                Matcher matcher = pattern.matcher(lineWord);
-                while (matcher.find()){
-                    word = matcher.group();//返回匹配的字符串
+                //判断匹配一个单词，还是全部单词
+                if("1".equals(downFlag)){
+                    word = lineWord;
+                } else {
+                    //正则表达式  匹配每行的第一个单词
+                    String patt = "^\\b\\w*\\b";
+                    Pattern pattern = Pattern.compile(patt);
+                    Matcher matcher = pattern.matcher(lineWord);
+                    while (matcher.find()){
+                        word = matcher.group();//返回匹配的字符串
+                    }
                 }
 
                 //匹配每行的单词
@@ -71,13 +94,17 @@ public class Application {
                 }
                 System.out.print("\t" + word);
 
+                //拼接前缀
+                word = preText + word;
+
                 String wordUrl = baseUrl+ word;
+                wordUrl = URIUtil.encodeQuery(wordUrl);
                 DownloadUtils downloadUtils  = new DownloadUtils(wordUrl, word, "mp3",file.getParent()+"\\words");
                 try {
                     downloadUtils.httpDownload();
                     System.out.print("\t \t \t下载成功");
                 } catch (Exception e) {
-                    System.out.print("\t \t \t下载失败");
+                    System.out.print("\t \t \t下载失败\t\t\t****");
                     e.printStackTrace();
                 }
                 System.out.println();
