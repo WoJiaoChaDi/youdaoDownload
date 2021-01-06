@@ -70,6 +70,7 @@ public class Application {
         BufferedReader reader = null;
         String lineWord = null;
         int line =1;
+        int lineSuc =1;
 
         try {
             System.out.println("以行为单位读取文件内容，一次读一整行：");
@@ -105,6 +106,7 @@ public class Application {
                 try {
                     downloadUtils.httpDownload();
                     System.out.print("\t \t \t下载成功");
+                    lineSuc ++;
                 } catch (Exception e) {
                     System.out.print("\t \t \t下载失败\t\t\t****");
                     e.printStackTrace();
@@ -115,6 +117,7 @@ public class Application {
             }
 
             System.out.println("所有单词下载完成！总计：" + --line);
+            System.out.println("所有单词下载完成！成功：" + --lineSuc);
             reader.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
