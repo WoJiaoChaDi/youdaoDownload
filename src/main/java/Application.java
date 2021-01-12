@@ -21,10 +21,10 @@ import java.util.regex.Pattern;
 public class Application {
     public static void main(String[] args) {
 
-        System.out.println("请输入需要的单词发音类型：0-美式  1-英式");
+        System.out.println("请输入需要的单词发音类型：0-美式  1-英式 2-默认");
         Scanner scanner = new Scanner(System.in);
         String targetType = scanner.next();
-        if(!targetType.equals("1") && !targetType.equals("0")){
+        if(!targetType.equals("2") && !targetType.equals("1") && !targetType.equals("0") ){
             System.out.println("您输入的是"+ targetType +"，请输入0或1，不支持其他类型！");
             return;
         }
@@ -32,27 +32,32 @@ public class Application {
         //有道api  美式：type=0   英式：type=0
         String baseUrl = "http://dict.youdao.com/dictvoice?type=" + targetType + "&audio=";
 
-        System.out.println("请输入单词txt地址，如： E:\\YouDaoDownload\\ankiword.txt");
-        scanner = new Scanner(System.in);
-        String targetWordTxt = scanner.next();
+        String targetWordTxt = "E:\\YouDaoDownload\\ankiword.txt";
+        String preText = "Chadi-";
+        String downFlag = "1";
+        if(!targetType.equals("2")){
+            System.out.println("请输入单词txt地址，如： E:\\YouDaoDownload\\ankiword.txt");
+            scanner = new Scanner(System.in);
+            targetWordTxt = scanner.next();
 
-        //前缀
-        System.out.println("请输入下载的单词前缀，如果不需要前缀，请输入\"no\"");
-        scanner = new Scanner(System.in);
-        String preText = scanner.next();
+            //前缀
+            System.out.println("请输入下载的单词前缀，如果不需要前缀，请输入\"no\"");
+            scanner = new Scanner(System.in);
+            preText = scanner.next();
 
-        //如果是no,则表示空
-        if("no".equals(preText)){
-            preText = "";
-        }
+            //如果是no,则表示空
+            if("no".equals(preText)){
+                preText = "";
+            }
 
-        //前缀
-        System.out.println("请输入是下载单词类型：0-首个单词   1-全部单词");
-        scanner = new Scanner(System.in);
-        String downFlag = scanner.next();
-        if(!downFlag.equals("1") && !downFlag.equals("0")){
-            System.out.println("您输入的是"+ downFlag +"，请输入0或1，不支持其他类型！");
-            return;
+            //前缀
+            System.out.println("请输入是下载单词类型：0-首个单词   1-全部单词");
+            scanner = new Scanner(System.in);
+            downFlag = scanner.next();
+            if(!downFlag.equals("1") && !downFlag.equals("0")){
+                System.out.println("您输入的是"+ downFlag +"，请输入0或1，不支持其他类型！");
+                return;
+            }
         }
 
 
